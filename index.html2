@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MBSS | Mwananchi Business Support System</title>
+<meta name="description" content="Empowering Kenyan MSMEs through digital business tools">
+
+<!-- Modern UI reset -->
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--primary:#0f9d58;
+--secondary:#4285f4;
+--danger:#ea4335;
+--dark:#121212;
+--light:#f5f5f5;
+--card:#ffffff;
+--radius:14px;
+--shadow:0 10px 30px rgba(0,0,0,.12);
+--transition:.35s ease;
+}
+body{
+font-family:Inter,Segoe UI,Tahoma,sans-serif;
+background:var(--light);
+color:#333;
+transition:var(--transition);
+}
+body.dark{
+background:var(--dark);
+color:#eee;
+}
+.hidden{display:none}
+.container{max-width:1200px;margin:auto;padding:20px}
+button{
+border:none;
+padding:12px 18px;
+border-radius:10px;
+font-weight:600;
+cursor:pointer;
+transition:var(--transition);
+}
+button.primary{background:var(--primary);color:#fff}
+button.secondary{background:var(--secondary);color:#fff}
+button:hover{transform:translateY(-2px)}
+input{
+width:100%;
+padding:12px;
+margin:10px 0;
+border-radius:10px;
+border:1px solid #ccc;
+}
+body.dark input{background:#222;color:#fff;border-color:#444}
+.card{
+background:var(--card);
+padding:30px;
+border-radius:var(--radius);
+box-shadow:var(--shadow);
+}
+body.dark .card{background:#1e1e1e}
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 20px;
+background:linear-gradient(135deg,var(--primary),#0c7c45);
+color:#fff;
+}
+nav button{margin-left:10px}
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:20px;
+}
+footer{
+text-align:center;
+padding:30px;
+opacity:.7;
+font-size:.9em;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h2>MBSS</h2>
+<nav>
+<button onclick="showSection('login')" class="secondary">Login</button>
+<button onclick="showSection('register')" class="secondary">Register</button>
+<button onclick="toggleTheme()">🌙</button>
+</nav>
+</header>
+
+<div class="container">
+
+<!-- INTRO -->
+<section id="intro" class="card">
+<h1>Empowering Kenyan MSMEs 🇰🇪</h1>
+<p>Digital tools, funding access, and a trusted marketplace for Mwananchi businesses.</p>
+<br>
+<button class="primary" onclick="showSection('register')">Get Started</button>
+</section>
+
+<!-- LOGIN -->
+<section id="login" class="card hidden">
+<h2>Login</h2>
+<input id="loginEmail" placeholder="Email">
+<input id="loginPassword" type="password" placeholder="Password">
+<button class="primary" onclick="login()">Login</button>
+</section>
+
+<!-- REGISTER -->
+<section id="register" class="card hidden">
+<h2>Create Account</h2>
+<input id="regEmail" placeholder="Email">
+<input id="regPassword" type="password" placeholder="Password">
+<button class="primary" onclick="register()">Register</button>
+</section>
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="hidden">
+<h2>Dashboard</h2>
+<div class="grid">
+<div class="card">📊 Business Analytics</div>
+<div class="card">💰 Funding Opportunities</div>
+<div class="card">🛒 Marketplace</div>
+<div class="card">📚 Training & Mentorship</div>
+</div>
+</section>
+
+<!-- MARKETPLACE -->
+<section id="marketplace" class="hidden">
+<h2>Marketplace</h2>
+<div class="grid" id="products"></div>
+</section>
+
+</div>
+
+<footer>
+© 2026 Mwananchi Business Support System
+</footer>
+
+<script>
+function showSection(id){
+document.querySelectorAll("section").forEach(s=>s.classList.add("hidden"));
+document.getElementById(id).classList.remove("hidden");
+}
+function toggleTheme(){
+document.body.classList.toggle("dark");
+}
+
+/* API CALLS (Node + Supabase) */
+
+async function register(){
+const res = await fetch("/api/register",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+email:regEmail.value,
+password:regPassword.value
+})
+});
+const data = await res.json();
+if(data.success){
+showSection("dashboard");
+}
+}
+
+async function login(){
+const res = await fetch("/api/login",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+email:loginEmail.value,
+password:loginPassword.value
+})
+});
+const data = await res.json();
+if(data.user){
+showSection("dashboard");
+}
+}
+</script>
+
+</body>
+</html>
