@@ -4,42 +4,82 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login - MBSS</title>
-
-<!-- Favicon -->
-<link rel="icon" href="https://img.icons8.com/color/48/000000/business.png" type="image/png">
-
-<!-- Font Awesome CDN for icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-<!-- Styles (if you use your own styles.css, keep this) -->
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<style>
+  body { font-family: 'Roboto', sans-serif; background:#f5f5f5; display:flex; justify-content:center; align-items:center; min-height:100vh; }
+  body.dark { background:#111; color:#fff; }
+  .form-container { background:#fff; padding:40px; border-radius:15px; box-shadow:0 6px 20px rgba(0,0,0,0.1); width:100%; max-width:400px; }
+  body.dark .form-container { background:#222; }
+  h2 { text-align:center; margin-bottom:20px; color:#0f9d58; }
+  body.dark h2 { color:#0ff; text-shadow:0 0 10px #0ff; }
+  .form-group { margin-bottom:20px; position:relative; }
+  .form-group i { position:absolute; top:50%; left:10px; transform:translateY(-50%); color:#0f9d58; }
+  body.dark .form-group i { color:#0ff; }
+  input { width:100%; padding:12px 12px 12px 35px; border:2px solid #ddd; border-radius:8px; font-size:1em; }
+  body.dark input { background:#333; color:#fff; border-color:#555; }
+  button { width:100%; padding:12px; border:none; border-radius:8px; background:#0f9d58; color:#fff; font-weight:600; cursor:pointer; transition:0.3s; }
+  button:hover { background:#4285f4; }
+  .alert { display:none; padding:12px; margin-bottom:15px; border-radius:8px; }
+  .alert-success { background:#d4edda; color:#155724; }
+  .alert-error { background:#f8d7da; color:#721c24; }
+  a { display:block; text-align:center; margin-top:10px; color:#4285f4; text-decoration:none; }
+</style>
 </head>
 <body>
+
 <div class="form-container">
-  <h2><i class="fas fa-user-lock"></i> Login</h2>
+  <h2><i class="fas fa-sign-in-alt"></i> Login</h2>
 
-  <form id="loginForm">
-    <div class="form-group">
-      <label><i class="fas fa-envelope"></i> Email</label>
-      <input type="email" name="email" placeholder="Enter your email" required>
-    </div>
+  <div class="alert alert-success" id="success-msg"></div>
+  <div class="alert alert-error" id="error-msg"></div>
 
-    <div class="form-group">
-      <label><i class="fas fa-key"></i> Password</label>
-      <input type="password" name="password" placeholder="Enter your password" required>
-    </div>
+  <div class="form-group">
+    <i class="fas fa-envelope"></i>
+    <input type="email" id="email" placeholder="Email" required>
+  </div>
+  <div class="form-group">
+    <i class="fas fa-lock"></i>
+    <input type="password" id="password" placeholder="Password" required>
+  </div>
+  <button onclick="login()">Login</button>
 
-    <button class="btn btn-primary" type="submit">
-      <i class="fas fa-sign-in-alt"></i> Login
-    </button>
-  </form>
-
-  <p class="mt-20 text-center">
-    <a href="register.html">Don't have an account? Register</a>
-  </p>
+  <a href="register.html">Don't have an account? Register</a>
 </div>
 
-<!-- JS for login -->
-<script src="login.js"></script>
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+const supabaseUrl = 'YOUR_SUPABASE_URL';
+const supabaseAnonKey = 'YOUR_SUPABASE_ANON_KEY';
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+async function login() {
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+  const successMsg = document.getElementById('success-msg');
+  const errorMsg = document.getElementById('error-msg');
+
+  // Reset alerts
+  successMsg.style.display = 'none';
+  errorMsg.style.display = 'none';
+
+  const { data, error } = await supabase
+    .from('users')
+    .select('*')
+    .eq('email', email)
+    .eq('password', password); // In production, use hashed passwords
+
+  if (error) {
+    errorMsg.textContent = error.message;
+    errorMsg.style.display = 'block';
+  } else if (data.length) {
+    successMsg.textContent = "Login successful! Redirecting...";
+    successMsg.style.display = 'block';
+    setTimeout(()=>window.location.href='dashboard.html',1000);
+  } else {
+    errorMsg.textContent = "Invalid email or password!";
+    errorMsg.style.display = 'block';
+  }
+}
+</script>
 </body>
 </html>
