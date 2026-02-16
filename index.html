@@ -6,7 +6,10 @@
 <title>MBSS | Mwananchi Business Support System</title>
 <meta name="description" content="Empowering Kenyan MSMEs through digital business tools">
 
-<!-- Modern UI reset -->
+<!-- FontAwesome for icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+<!-- Modern UI reset + styles -->
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -56,6 +59,7 @@ background:var(--card);
 padding:30px;
 border-radius:var(--radius);
 box-shadow:var(--shadow);
+transition:var(--transition);
 }
 body.dark .card{background:#1e1e1e}
 header{
@@ -78,6 +82,14 @@ padding:30px;
 opacity:.7;
 font-size:.9em;
 }
+@keyframes fadeIn {
+  from {opacity:0; transform:translateY(20px);}
+  to {opacity:1; transform:translateY(0);}
+}
+@keyframes slideUp {
+  from {opacity:0; transform:translateY(50px);}
+  to {opacity:1; transform:translateY(0);}
+}
 </style>
 </head>
 
@@ -95,11 +107,38 @@ font-size:.9em;
 <div class="container">
 
 <!-- INTRO -->
-<section id="intro" class="card">
-<h1>Empowering Kenyan MSMEs 🇰🇪</h1>
-<p>Digital tools, funding access, and a trusted marketplace for Mwananchi businesses.</p>
-<br>
-<button class="primary" onclick="showSection('register')">Get Started</button>
+<section id="intro" class="card" style="padding:60px 40px; text-align:center;">
+  <h1 style="font-size:3em; margin-bottom:20px; background:linear-gradient(135deg,var(--primary),var(--secondary)); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">
+    Empowering Kenyan MSMEs 🇰🇪
+  </h1>
+  <p style="font-size:1.3em; line-height:1.8; max-width:900px; margin:auto; opacity:0.85; margin-bottom:40px;">
+    Mwananchi Business Support System is your trusted partner in building a thriving business. Access digital tools, find funding opportunities, showcase your products or services on our marketplace, connect with mentors, and grow your business sustainably. Whether you are a small artisan, a local retailer, or a service provider, MBSS brings all the resources you need under one roof.
+  </p>
+
+  <!-- FEATURES GRID -->
+  <div class="grid" style="max-width:1000px; margin:auto; gap:30px;">
+    <div class="card" style="padding:30px; font-size:1.1em; display:flex; flex-direction:column; align-items:center; animation:fadeIn 0.8s ease;">
+      <i class="fas fa-chart-line" style="font-size:2.5em; color:var(--primary); margin-bottom:15px;"></i>
+      Business Analytics
+    </div>
+    <div class="card" style="padding:30px; font-size:1.1em; display:flex; flex-direction:column; align-items:center; animation:fadeIn 0.8s ease 0.2s;">
+      <i class="fas fa-hand-holding-usd" style="font-size:2.5em; color:var(--secondary); margin-bottom:15px;"></i>
+      Funding Opportunities
+    </div>
+    <div class="card" style="padding:30px; font-size:1.1em; display:flex; flex-direction:column; align-items:center; animation:fadeIn 0.8s ease 0.4s;">
+      <i class="fas fa-store" style="font-size:2.5em; color:#ffa500; margin-bottom:15px;"></i>
+      Marketplace
+    </div>
+    <div class="card" style="padding:30px; font-size:1.1em; display:flex; flex-direction:column; align-items:center; animation:fadeIn 0.8s ease 0.6s;">
+      <i class="fas fa-graduation-cap" style="font-size:2.5em; color:#ff4081; margin-bottom:15px;"></i>
+      Training & Mentorship
+    </div>
+  </div>
+
+  <br><br>
+  <button class="primary" onclick="showSection('register')" style="padding:15px 30px; font-size:1.2em; margin-top:40px; animation:slideUp 1s ease;">
+    Get Started
+  </button>
 </section>
 
 <!-- LOGIN -->
@@ -107,7 +146,7 @@ font-size:.9em;
 <h2>Login</h2>
 <input id="loginEmail" placeholder="Email">
 <input id="loginPassword" type="password" placeholder="Password">
-<button class="primary" onclick="login()">Login</button>
+<button class="primary" onclick="login()"><i class="fas fa-sign-in-alt"></i> Login</button>
 </section>
 
 <!-- REGISTER -->
@@ -115,7 +154,7 @@ font-size:.9em;
 <h2>Create Account</h2>
 <input id="regEmail" placeholder="Email">
 <input id="regPassword" type="password" placeholder="Password">
-<button class="primary" onclick="register()">Register</button>
+<button class="primary" onclick="register()"><i class="fas fa-user-plus"></i> Register</button>
 </section>
 
 <!-- DASHBOARD -->
@@ -128,14 +167,6 @@ font-size:.9em;
 <div class="card">📚 Training & Mentorship</div>
 </div>
 </section>
-
-<!-- MARKETPLACE -->
-<section id="marketplace" class="hidden">
-<h2>Marketplace</h2>
-<div class="grid" id="products"></div>
-</section>
-
-</div>
 
 <footer>
 © 2026 Mwananchi Business Support System
@@ -151,7 +182,6 @@ document.body.classList.toggle("dark");
 }
 
 /* API CALLS (Node + Supabase) */
-
 async function register(){
 const res = await fetch("/api/register",{
 method:"POST",
@@ -184,4 +214,4 @@ showSection("dashboard");
 </script>
 
 </body>
-</html>
+  </html>
