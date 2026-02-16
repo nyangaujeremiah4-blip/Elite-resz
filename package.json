@@ -1,0 +1,15 @@
+{
+  "name": "mbss_project",
+  "version": "1.0.0",
+  "description": "Mwananchi Business Support System",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.10.0"
+  },
+  "author": "Your Name",
+  "license": "MIT"
+}
