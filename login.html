@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - MBSS</title>
+
+<!-- Favicon -->
+<link rel="icon" href="https://img.icons8.com/color/48/000000/business.png" type="image/png">
+
+<!-- Font Awesome CDN for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<!-- Styles (if you use your own styles.css, keep this) -->
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="form-container">
+  <h2><i class="fas fa-user-lock"></i> Login</h2>
+
+  <form id="loginForm">
+    <div class="form-group">
+      <label><i class="fas fa-envelope"></i> Email</label>
+      <input type="email" name="email" placeholder="Enter your email" required>
+    </div>
+
+    <div class="form-group">
+      <label><i class="fas fa-key"></i> Password</label>
+      <input type="password" name="password" placeholder="Enter your password" required>
+    </div>
+
+    <button class="btn btn-primary" type="submit">
+      <i class="fas fa-sign-in-alt"></i> Login
+    </button>
+  </form>
+
+  <p class="mt-20 text-center">
+    <a href="register.html">Don't have an account? Register</a>
+  </p>
+</div>
+
+<!-- JS for login -->
+<script src="login.js"></script>
+</body>
+</html>
