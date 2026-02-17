@@ -1,5 +1,5 @@
-import { createClient } from '@supabase/supabase-js';
-
+import { supabase } from './supabase_mobile.js';
+ 
 const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_ANON_KEY
